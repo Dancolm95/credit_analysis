@@ -3,7 +3,7 @@ class CreditRiskClassifier {
     if(percentage < 0) {
       throw ArgumentError('El porcentaje no puede ser negativo.');
     }
-    
+
     if (percentage <= 30) {
       return 'Bajo';
     }
