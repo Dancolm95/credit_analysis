@@ -1,10 +1,10 @@
-# Project Constitution
+# Constitution
 
-## Purpose
+## Propósito
 
 Esta constitución funciona como guía para mantener consistencia durante el desarrollo. No busca imponer reglas rígidas, sino orientar las decisiones técnicas y de implementación.
 
-## Principles
+## Principios
 
 ### 1. Spec-Driven Development
 
