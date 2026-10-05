@@ -18,11 +18,7 @@ class DebtToIncomeCalculator {
       throw ArgumentError('Las deudas no pueden ser negativas.');
     }
     final totalDebt =
-        creditCards +
-        personalLoans +
-        vehicleLoan +
-        mortgage +
-        otherDebts;
+        creditCards + personalLoans + vehicleLoan + mortgage + otherDebts;
 
     return (totalDebt / monthlyIncome) * 100;
   }
