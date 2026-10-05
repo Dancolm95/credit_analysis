@@ -10,30 +10,43 @@ void main() {
     expect(result, 'Bajo');
   });
   test('clasifica 35% como riesgo moderado', () {
-  final classifier = CreditRiskClassifier();
+    final classifier = CreditRiskClassifier();
 
-  final result = classifier.classify(35.0);
+    final result = classifier.classify(35.0);
 
-  expect(result, 'Moderado');
-});
-test('clasifica 45% como riesgo alto',() {
-  final classifier = CreditRiskClassifier();
-  final result = classifier.classify(45.0);
-  expect(result, 'Alto');
-});
-test('clasifica 60% como riesgo muy alto', () {
-  final classifier = CreditRiskClassifier();
+    expect(result, 'Moderado');
+  });
 
-  final result = classifier.classify(60.0);
+  test('clasifica 40% como riesgo moderado', () {
+    final classifier = CreditRiskClassifier();
 
-  expect(result, 'Muy alto');
-});
-test('lanza error cuando el porcentaje es negativo', () {
-  final classifier = CreditRiskClassifier();
+    final result = classifier.classify(40.0);
 
-  expect(
-    () => classifier.classify(-10),
-    throwsArgumentError,
-  );
-});
+    expect(result, 'Moderado');
+  });
+
+  test('clasifica 45% como riesgo alto', () {
+    final classifier = CreditRiskClassifier();
+    final result = classifier.classify(45.0);
+    expect(result, 'Alto');
+  });
+  test('clasifica 50% como riesgo alto', () {
+    final classifier = CreditRiskClassifier();
+
+    final result = classifier.classify(50.0);
+
+    expect(result, 'Alto');
+  });
+  test('clasifica 60% como riesgo muy alto', () {
+    final classifier = CreditRiskClassifier();
+
+    final result = classifier.classify(60.0);
+
+    expect(result, 'Muy alto');
+  });
+  test('lanza error cuando el porcentaje es negativo', () {
+    final classifier = CreditRiskClassifier();
+
+    expect(() => classifier.classify(-10), throwsArgumentError);
+  });
 }
