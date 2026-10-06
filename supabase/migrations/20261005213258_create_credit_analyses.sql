@@ -14,3 +14,9 @@ create table public.credit_analyses(
 );
 
 alter table public.credit_analyses enable row level security;
+
+create policy "Users can insert own credit analyses"
+on public.credit_analyses
+for insert
+to authenticated
+with check ((select auth.uid()) = user_id);

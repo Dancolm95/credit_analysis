@@ -1,6 +1,6 @@
 begin;
 
-select plan(24);
+select plan(25);
 
 select has_table(
   'public',
@@ -156,6 +156,17 @@ select ok(
         where oid = 'public.credit_analyses'::regclass
     ),
     'RLS should be enabled for credit_analyses'
+);
+select ok(
+    exists(
+        select 1
+        from pg_policies
+        where schemaname = 'public'
+        and tablename = 'credit_analyses'
+        and policyname = 'Users can insert own credit analyses'
+        and cmd = 'INSERT'
+    ),
+    'credit_analyses should have an insert policy'
 );
 
 select * from finish();
