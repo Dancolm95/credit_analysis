@@ -1,6 +1,6 @@
 begin;
 
-select plan(23);
+select plan(24);
 
 select has_table(
   'public',
@@ -147,6 +147,15 @@ select col_not_null(
     'credit_analyses',
     'created_at',
     'created_at should be required'
+);
+
+select ok(
+    (
+        select relrowsecurity
+        from pg_class
+        where oid = 'public.credit_analyses'::regclass
+    ),
+    'RLS should be enabled for credit_analyses'
 );
 
 select * from finish();

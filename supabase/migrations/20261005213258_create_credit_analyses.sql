@@ -12,3 +12,5 @@ create table public.credit_analyses(
   category text not null,
   created_at timestamptz not null default now()
 );
+
+alter table public.credit_analyses enable row level security;
