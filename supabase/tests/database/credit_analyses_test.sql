@@ -1,6 +1,6 @@
 begin;
 
-select plan(25);
+select plan(27);
 
 select has_table(
   'public',
@@ -168,6 +168,89 @@ select ok(
     ),
     'credit_analyses should have an insert policy'
 );
+
+insert into auth.users (id, email)
+values(
+    '00000000-0000-0000-0000-000000000001',
+    'owner@example.com'
+);
+
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-000000000001';
+
+select lives_ok(
+    $$
+    insert into public.credit_analyses (
+        user_id,
+        monthly_income,
+        credit_cards,
+        personal_loans,
+        vehicle_loan,
+        mortgage,
+        total_debt,
+        other_debts,
+        percentage,
+        category
+    )
+    values (
+        '00000000-0000-0000-0000-000000000001',
+        50000,
+        500,
+        0,
+        0,
+        0,
+        500,
+        0,
+        10,
+        'low'
+    )
+    $$,
+    'an authenticated user can insert their own analysis'
+);
+reset role;
+
+insert into auth.users (id, email)
+values(
+    '00000000-0000-0000-0000-000000000002',
+    'other@example.com'
+);
+
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-000000000001';
+
+select throws_ok(
+    $$
+    insert into public.credit_analyses (
+        user_id,
+        monthly_income,
+        credit_cards,
+        personal_loans,
+        vehicle_loan,
+        mortgage,
+        total_debt,
+        other_debts,
+        percentage,
+        category
+    )
+    values (
+        '00000000-0000-0000-0000-000000000002',
+        50000,
+        500,
+        0,
+        0,
+        0,
+        500,
+        0,
+        10,
+        'low'
+    )
+    $$,
+    '42501',
+    'new row violates row-level security policy for table "credit_analyses"',
+    'a user cannot insert an analysis for another user'
+);
+
+reset role;
 
 select * from finish();
 
