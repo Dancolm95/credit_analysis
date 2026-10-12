@@ -20,3 +20,9 @@ on public.credit_analyses
 for insert
 to authenticated
 with check ((select auth.uid()) = user_id);
+
+create policy "Users can view own credit analyses"
+on public.credit_analyses
+for select
+to authenticated
+using ((select auth.uid()) = user_id);

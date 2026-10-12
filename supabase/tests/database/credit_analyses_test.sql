@@ -1,6 +1,6 @@
 begin;
 
-select plan(27);
+select plan(30);
 
 select has_table(
   'public',
@@ -209,6 +209,17 @@ select lives_ok(
 );
 reset role;
 
+select ok(
+    exists(
+        select 1
+        from pg_policies
+        where schemaname = 'public'
+        and tablename = 'credit_analyses'
+        and policyname = 'Users can view own credit analyses'
+        and cmd = 'SELECT'
+    ),
+    'credit_analyses should have a view policy'
+);
 insert into auth.users (id, email)
 values(
     '00000000-0000-0000-0000-000000000002',
@@ -248,6 +259,52 @@ select throws_ok(
     '42501',
     'new row violates row-level security policy for table "credit_analyses"',
     'a user cannot insert an analysis for another user'
+);
+
+reset role;
+
+insert into public.credit_analyses (
+    user_id,
+    monthly_income,
+    credit_cards,
+    personal_loans,
+    vehicle_loan,
+    mortgage,
+    total_debt,
+    other_debts,
+    percentage,
+    category
+)
+values (
+    '00000000-0000-0000-0000-000000000002',
+    6000,
+    600,
+    0,
+    0,
+    0,
+    600,
+    0,
+    10,
+    'low'
+);
+
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-000000000001';
+
+select is(
+    (select count(*) from public.credit_analyses),
+    1::bigint,
+    'a user can only see one analysis'
+);
+
+select is (
+    (
+        select user_id::text
+        from public.credit_analyses
+        limit 1
+    ),
+    '00000000-0000-0000-0000-000000000001',
+    'the visible analysis belongs to the authenticated user'
 );
 
 reset role;
