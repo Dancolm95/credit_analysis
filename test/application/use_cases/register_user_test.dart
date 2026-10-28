@@ -15,6 +15,12 @@ class FakeAuthRepository implements AuthRepository {
     registeredEmail = email;
     registeredPassword = password;
   }
+
+  @override
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {}
 }
 
 void main() {
