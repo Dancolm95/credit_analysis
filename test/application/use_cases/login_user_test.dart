@@ -34,7 +34,7 @@ void main() {
     expect(repository.signedInPassword, '12345678');
   });
 
-    test("no inicia sesión cuando el correo es inválido", () async {
+  test("no inicia sesión cuando el correo es inválido", () async {
     final repository = FakeAuthRepository();
     final useCase = LoginUser(
       repository: repository,

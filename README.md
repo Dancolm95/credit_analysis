@@ -35,7 +35,7 @@ El proyecto también funciona como un entorno de práctica de **Dart, Flutter, s
 
 El repositorio incluye un directorio `supabase/`. Su presencia no implica que la integración de persistencia esté terminada.
 
-## Arquitectura y flujo propuesto
+## Arquitectura y flujo
 
 Se sigue un enfoque de **separación por capas**, inspirado en principios de Clean Architecture:
 
@@ -46,13 +46,10 @@ Se sigue un enfoque de **separación por capas**, inspirado en principios de Cle
 | **Presentation** | Formularios, pantallas y visualización de resultados en Flutter |
 | **Data / Infrastructure** | Almacenamiento y comunicación con fuentes de datos |
 
-Flujo objetivo de la aplicación:
+Flujo de análisis ya implementado en Dart:
 
 ```text
 Datos financieros del usuario
-             |
-             v
-     Interfaz de Flutter
              |
              v
     Caso de uso / Application
@@ -64,13 +61,10 @@ Datos financieros del usuario
      Clasificación de riesgo
              |
              v
-       Resultado formateado
-             |
-             v
-     Presentación al usuario
+  CreditAnalysisResult
 ```
 
-Este diagrama representa el **diseño objetivo**, no una afirmación de que todas las capas estén ya integradas.
+El caso de uso `AnalyzeCreditUseCase` recibe el calculador y el clasificador por constructor. La interfaz Flutter todavía no usa este flujo. `CreditAnalysisResultFormatter` permite convertir un resultado en texto con `%` cuando exista una pantalla que lo presente.
 
 ## Funcionalidades trabajadas
 
@@ -97,29 +91,30 @@ Categoría: Moderado
 
 ## Hoja de ruta
 
-**Estado de referencia: octubre de 2026.** Los puntos completados reflejan los avances trabajados durante el desarrollo; el resto constituye el plan de evolución.
+**Estado verificado: 30 de octubre de 2026.** Los puntos completados reflejan código y pruebas ejecutadas; el resto constituye el plan de evolución.
 
 ### Fase 1 — Fundamentos y reglas del dominio
 
 - [x] Establecer la finalidad de la aplicación.
 - [x] Definir las categorías básicas de riesgo.
 - [x] Iniciar la separación de la lógica del dominio.
-- [ ] Consolidar y documentar todos los umbrales y casos límite.
+- [x] Documentar los umbrales y casos límite en SPEC-001 y SPEC-002.
 
-### Fase 2 — Servicios de dominio y pruebas **(fase actual)**
+### Fase 2 — Flujo de análisis crediticio **(completada)**
 
 - [x] Trabajar con `CreditRiskClassifier` y sus pruebas unitarias.
 - [x] Implementar y probar `CreditAnalysisResultFormatter`.
-- [ ] Revisar casos límite, datos inválidos y consistencia de resultados.
-- [ ] Refactorizar los servicios cuando sea necesario, manteniendo los tests en verde.
+- [x] Cubrir ingreso no positivo, deudas negativas, deuda cero, decimales y límites de clasificación.
+- [x] Implementar `AnalyzeCreditUseCase` y devolver `CreditAnalysisResult`.
+- [x] Superar formato, análisis estático y suite de pruebas.
 
-### Fase 3 — Casos de uso
+### Fase 3 — Integración con la interfaz
 
-- [ ] Definir un caso de uso para ejecutar el análisis.
-- [ ] Coordinar cálculo, clasificación y construcción del resultado.
-- [ ] Escribir pruebas del caso de uso.
+- [ ] Sustituir la pantalla de contador por un formulario para los seis montos.
+- [ ] Conectar el formulario con `AnalyzeCreditUseCase` y presentar resultado o errores de validación.
+- [ ] Probar el flujo de interacción en Flutter.
 
-### Fase 4 — Interfaz de usuario
+### Fase 4 — Experiencia de usuario
 
 - [ ] Diseñar el formulario de entrada de datos.
 - [ ] Mostrar porcentaje y clasificación de riesgo.
@@ -147,9 +142,9 @@ Categoría: Moderado
 
 ## Estado actual y siguiente paso
 
-**Estamos en la fase 2: servicios de dominio y pruebas.** Se han trabajado la clasificación del riesgo, el formato del resultado y las pruebas relacionadas.
+**La Fase 2 está completada en la rama de revisión.** El flujo de dominio y aplicación calcula y clasifica el porcentaje; `flutter test` terminó con **42 pruebas aprobadas** y `flutter analyze` con **cero problemas**. La aplicación que se inicia con `flutter run` aún muestra el contador de ejemplo.
 
-**Siguiente paso recomendado:** consolidar las reglas del dominio y sus casos límite; luego introducir el caso de uso que coordine el análisis antes de conectarlo a la interfaz.
+**Siguiente fase prevista:** conectar el caso de uso a un formulario Flutter y mostrar los mensajes de validación y el resultado. Consulta el [informe de Fase 2](docs/PHASE_2_REPORT.md) y la [guía de estudio](docs/PHASE_2_STUDY_GUIDE.md).
 
 ## Metodología de desarrollo
 
@@ -194,11 +189,13 @@ flutter run -d <device_id>
 ### Pruebas y análisis estático
 
 ```bash
+flutter pub get
+dart format --output=none --set-exit-if-changed lib test
 flutter test
 flutter analyze
 ```
 
-> La ejecución de estos comandos requiere tener configurado Flutter en el equipo. Este README no implica que todas las pruebas o destinos hayan sido verificados en un entorno de integración continua.
+> Estos cuatro comandos se ejecutaron desde la raíz el 30 de octubre de 2026 y pasaron. No se verificó la ejecución en dispositivos ni una integración continua.
 
 ## Organización del repositorio
 

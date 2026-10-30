@@ -49,4 +49,15 @@ void main() {
 
     expect(() => classifier.classify(-10), throwsArgumentError);
   });
+
+  for (final (percentage, category) in [
+    (0.0, 'Bajo'),
+    (30.000001, 'Moderado'),
+    (40.000001, 'Alto'),
+    (50.000001, 'Muy alto'),
+  ]) {
+    test('clasifica $percentage% como $category', () {
+      expect(CreditRiskClassifier().classify(percentage), category);
+    });
+  }
 }
