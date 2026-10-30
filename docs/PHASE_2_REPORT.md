@@ -1,6 +1,6 @@
 # Informe de la Fase 2 — análisis crediticio
 
-Fecha de validación: 30 de octubre de 2026. Rama: `codex/phase-2-credit-analysis`.
+Fecha de validación: 30 de octubre de 2026. Trabajo realizado en `codex/phase-2-credit-analysis` y fusionado en `main` mediante la [PR #1](https://github.com/Dancolm95/credit_analysis/pull/1), commit [`00711ef`](https://github.com/Dancolm95/credit_analysis/commit/00711ef749474f38af4c6b9efcbbee2c78b68ce0).
 
 ## Estado inicial y diagnóstico
 
@@ -37,7 +37,7 @@ Fecha de validación: 30 de octubre de 2026. Rama: `codex/phase-2-credit-analysi
 3. **GREEN:** tras implementar `execute`, la ejecución conjunta de las pruebas del caso de uso y del clasificador terminó con **17 pruebas aprobadas**.
 4. **REFACTOR:** se corrigió el nombre del archivo y se aplicó `dart format`; el comportamiento quedó verificado con la suite completa.
 
-Comandos ejecutados desde la raíz y resultado real:
+Resultados de la validación local documentada, con comandos ejecutados desde la raíz:
 
 | Comando | Resultado |
 | --- | --- |
@@ -45,6 +45,8 @@ Comandos ejecutados desde la raíz y resultado real:
 | `dart format --output=none --set-exit-if-changed lib test` | Primera ejecución: detectó dos archivos. Tras formatearlos, se repitió y pasó. |
 | `flutter analyze` | Exitoso: `No issues found!`. |
 | `flutter test` | Exitoso: **42 pruebas aprobadas**. |
+
+Estos resultados corresponden a la validación local documentada. Al 30 de octubre de 2026, [GitHub Actions no registra ejecuciones](https://api.github.com/repos/Dancolm95/credit_analysis/actions/runs?per_page=100) y el [commit de merge no tiene verificaciones publicadas](https://api.github.com/repos/Dancolm95/credit_analysis/commits/00711ef749474f38af4c6b9efcbbee2c78b68ce0/check-runs); no hay una ejecución de CI que permita corroborarlos.
 
 ## Criterios de aceptación
 
@@ -56,7 +58,7 @@ Comandos ejecutados desde la raíz y resultado real:
 - [x] Pruebas relevantes, análisis estático y formato global en verde.
 - [x] Documentación y README actualizados.
 
-**Estado de la Fase 2: completada para el flujo de dominio y aplicación solicitado.** La rama está preparada para revisión; no se fusionó con `main`.
+**Estado de la Fase 2: completada para el flujo de dominio y aplicación solicitado y fusionada en `main` el 30 de octubre de 2026.**
 
 ## Límites y mejoras futuras
 
