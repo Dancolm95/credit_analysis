@@ -142,7 +142,7 @@ Categoría: Moderado
 
 ## Estado actual y siguiente paso
 
-**La Fase 2 está completada en la rama de revisión.** El flujo de dominio y aplicación calcula y clasifica el porcentaje; `flutter test` terminó con **42 pruebas aprobadas** y `flutter analyze` con **cero problemas**. La aplicación que se inicia con `flutter run` aún muestra el contador de ejemplo.
+**La Fase 2 está completada en `main` tras la fusión de la [PR #1](https://github.com/Dancolm95/credit_analysis/pull/1) el 30 de octubre de 2026.** El flujo de dominio y aplicación calcula y clasifica el porcentaje. La validación local documentada registró **42 pruebas aprobadas** con `flutter test` y **cero problemas** con `flutter analyze`; GitHub Actions no registra ejecuciones para este merge. La aplicación que se inicia con `flutter run` aún muestra el contador de ejemplo.
 
 **Siguiente fase prevista:** conectar el caso de uso a un formulario Flutter y mostrar los mensajes de validación y el resultado. Consulta el [informe de Fase 2](docs/PHASE_2_REPORT.md) y la [guía de estudio](docs/PHASE_2_STUDY_GUIDE.md).
 
